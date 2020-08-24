@@ -1,0 +1,96 @@
+.container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+}
+
+.header {
+  flex-direction: column;
+  align-items: center;
+  z-index: 1000;
+  background-color: #fff;
+  border-bottom: 1px solid #eaeaea;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(234, 234, 234);
+}
+
+.headerContent {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  column-gap: 2rem;
+  margin: 0 2rem;
+}
+
+.headerImage {
+  width: 6rem;
+  height: 6rem;
+}
+
+.headerHomeImage {
+  width: 8rem;
+  height: 8rem;
+}
+
+.backToHome {
+  font-weight: 600;
+  padding: 1rem;
+  margin: 3rem 0;
+}
+
+.main {
+  margin: auto;
+  align-items: center;
+}
+
+.logoIcon,
+.headerLink,
+.headerIcon {
+  align-self: center;
+}
+
+@media (max-width: 600px) {
+  .headerLinks {
+    flex: 0 0 100%;
+    justify-self: center;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+}
+
+.headerLinks > a {
+  margin: 0 1rem;
+}
+
+.headerLinks {
+  align-self: center;
+}
+
+.logoIcon {
+  margin-right: 0.5rem;
+}
+
+.logoIcon,
+.headerIcon {
+  font-size: 1.5rem;
+}
+
+.logo:hover,
+.headerIcon:hover {
+  color: #696969;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.headerLink {
+  font-size: 1.2rem;
+}
+
+.donateButton {
+  margin: auto 0;
+}

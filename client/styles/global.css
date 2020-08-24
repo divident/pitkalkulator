@@ -1,0 +1,44 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #064794;
+  text-decoration: underline;
+}
+
+button {
+  font: inherit;
+  border-radius: 10px;
+  border: none;
+  padding: 0.2rem 1rem;
+  color: #ffff;
+  background-color: #0070f3;
+}
+
+button:hover {
+  background-color: #064794;
+}
+
+main {
+	overflow-x: auto;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  left: 0;
+}

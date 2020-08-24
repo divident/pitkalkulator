@@ -1,0 +1,11 @@
+question;answer
+Jak liczony jest zysk?;"<b>Koszt uzyskania przychodu</b> to średnia cena nabycia akcji do momentu ich sprzedaży.
+                    Czyli zakup 2 pakietów akcji firmy CCC 10 po 30 zł i 10 po 10 zł, daje średnią cenę 20 zł.
+                    Następnie, jeśli sprzedamy 10 akcji to koszt uzyskania przychodu wyniesie 200 zł.
+                    <br><br><b>Przychód</b> to po prostu ilość sprzedanych akcji pomnożona przez ich cenę.
+                    <br><br><b>Dochód</b> cześć która trafia do naszej kieszeni to przychód - koszt uzyskania przychodu."
+Jak zysk jest przeliczany na zł?;"Wysokość kursu używana jako mnożnik, jest brana z dnia dokonywania sprzedaży, danego pakietu akcji, dla kosztu uzyskania przychodu i przychodu
+                    Kurs waluty jest przeliczany na podstawie dostępnych danych <a href=""http://api.nbp.pl/"">nbp api</a>,
+                    zgodnie z <a href=""https://www.pit.pl/dochody-zagraniczne/jak-przeliczyc-na-pln-dochody-zagraniczne-pity-roczne-2017-922701"">polskim prawem</a>."
+Dlaczego dywidenta nie jest dodawana do przychodu?;"W Revolucie jest potrącany podatek w wysokości 30% od wypłacancyh dywident.
+                    Zgodnie z porozumieniami o unikaniu podwójnego opodatkowania, nie trzeba już naliczać 19% polskiego podatku."

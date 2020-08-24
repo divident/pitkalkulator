@@ -1,0 +1,7 @@
+venv/
+.idea/
+upload/*.pdf
+__pycache__/
+*.db
+certs.zip
+test_data/*

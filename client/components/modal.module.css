@@ -1,0 +1,41 @@
+.modal {
+    position: absolute;
+    width: 250px;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+    background-color: #ffffff;
+    border: 2px solid #505050;
+    border-radius: 15px;
+}
+
+@media (min-width: 700px) {
+    .modal {
+        top: calc(50% - 250px);
+        left: calc(50% - 250px);
+    }
+}
+
+.modal > div {
+    margin: 1rem 2rem;
+}
+
+.modalInput > div {
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.modalInput > select,
+.modalInput > input {
+    width: 100%;
+}
+
+.modalButton {
+    margin: 1rem auto;
+    margin-right: 1.5rem;
+}
+
+.textWarning {
+    font-weight: 600;
+    color: #cc0000;
+}

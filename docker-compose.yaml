@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+    app:
+      build: .
+      #image: revolut-pit:latest
+      environment:
+        - ENV=PROD
+      ports:
+        - 433:433
+        - 80:80
+      depends_on:
+        - db
+      volumes:
+        - ./certs:/certs
+    db:
+      image: postgres:12-alpine
+      volumes:
+        - db:/var/lib/postgresql/data/
+      environment:
+        - POSTGRES_USER=admin
+        - POSTGRES_PASSWORD=your_password
+        - POSTGRES_DB=pitkalkulator
+  
+volumes:
+  db:

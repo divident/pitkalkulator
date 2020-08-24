@@ -1,0 +1,29 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-brands-svg-icons": "^5.15.2",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "framer-motion": "^2.9.5",
+    "gray-matter": "^4.0.2",
+    "next": "10.0.3",
+    "react": "^17.0.1",
+    "react-datepicker": "^3.4.1",
+    "react-dom": "17.0.1",
+    "react-dropzone": "^11.3.0",
+    "react-table": "^7.6.3",
+    "styled-components": "^5.2.1",
+    "swr": "^0.3.11"
+  },
+  "devDependencies": {
+    "@zeit/next-css": "^1.0.1"
+  }
+}
