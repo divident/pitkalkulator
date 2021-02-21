@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faCalculator } from '@fortawesome/free-solid-svg-icons'
-import { faFacebook } from '@fortawesome/free-brands-svg-icons'
+import { faFacebook, faGithub } from '@fortawesome/free-brands-svg-icons'
+import Cookies from './cookies'
 
 export const siteTitle = 'Next.js Sample Website'
 
@@ -40,6 +41,9 @@ export default function Layout({ children, home }) {
             <a href="https://www.facebook.com/PIT-Kalkulator-108185764358336">
               <FontAwesomeIcon className={styles.headerIcon} icon={faFacebook} />
             </a>
+            <a href="https://github.com/divident/pitkalkulator">
+              <FontAwesomeIcon className={styles.githubIcon} icon={faGithub} />
+            </a>
           </div>
         </div>
       </header>
@@ -51,6 +55,7 @@ export default function Layout({ children, home }) {
           </Link>
         </div>
       )}
+      <Cookies className={styles.cookies}></Cookies>
     </div>
   )
 }

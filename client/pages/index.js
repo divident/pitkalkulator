@@ -126,6 +126,8 @@ export default function Home({ allStepsData }) {
               <button className={styles.clearButton} onClick={() => clearFiles()}>Wyczyść</button>
               <button className={styles.sendButton} onClick={() => sendFiles()}>Wyślij</button>
             </div>
+            <p className={styles.regulations}>Klikając przycisk "Wyślij" akceptujesz <a href='/regulations'>regulamin serwisu</a></p>
+
             <p style={{ textAlign: 'center' }}>Przekaż darowiznę na utrzymanie serwera</p>
             <div className={styles.buttonContainer}>
               <form action="https://www.paypal.com/donate" method="post" target="_top">

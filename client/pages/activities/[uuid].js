@@ -334,7 +334,7 @@ const Activities = () => {
                             profitYear={profitYear}
                             setProfitYear={setProfitYear} />
                         <div className="buttonWrapper">
-                            <button onClick={() => setVisible(!visible)}>Dodaj transakcje</button>
+                            <button onClick={() => {setVisible(!visible); window.scrollTo(0, 0)}}>Dodaj transakcje</button>
                         </div>
                         {visible ?
                             <Modal

@@ -1,3 +1,4 @@
+import logging
 import csv
 import io
 import os
@@ -110,9 +111,7 @@ def allowed_file(filename):
 def upload_file():
     if request.method == 'POST':
         statement = AccountStatement()
-        app.logger.error(request.files)
         files = request.files.getlist("files[]")
-        app.logger.error(f"count={len(files)}")
         if len(files) < 1:
              return make_response(jsonify({'error': 'Nie wysłano żanych plików'}), 400)
         with tempfile.TemporaryDirectory(dir=app.config['UPLOAD_FOLDER']) as tmpdirname:
@@ -252,7 +251,7 @@ class AccountStatement:
     BEG_STR = "ACTIVITY"
     END_STR = "SWEEP ACTIVITY"
     SIX_FIELD_ACTIVITY = ["CSD", "CDEP"]
-    FILTER_WORDS = set(['ACTIVITY', 'Trade Date', 'Settle Date', 'Currency',
+    FILTER_WORDS = set(['ACTIVITY', 'Trade Date', 'Settle Date', 'Currency', 'Princ',
                     'Activity Type', 'Symbol / Description', 'Quantity', 'Price', 'Amount', 'Agency.', 'Principal.', '.Principal', 'Principal'])
     FILTER_SYMBOL = re.compile(r'^\d+\.\d+ \w+\.$')
     DATE = re.compile(r'^\d{2}/\d{2}/\d{4}$')
@@ -320,14 +319,16 @@ class AccountStatement:
             # Handle special case
             if row.count("Your Default Tax Lot Disposition Method is:") > 0:
                 row = row[0:row.index("Your Default Tax Lot Disposition Method is:")]
+            row[price] = row[price].split()[0]
+            row[quantity] = row[quantity].split()[0]
             if row[activity_type] == "BUY":
                 share_name = row[symbol].split('-')[0].strip()
                 [share_name].append(
                     (Decimal(row[price]), Decimal(row[quantity])))
                 activity = Activity(settle_date=parsed_date, currency=row[currency], type=row[activity_type],
-                                    symbol=share_name,
-                                    quantity=Decimal(row[quantity]), price=Decimal(row[price]),
-                                    request_id=self._request_id)
+                                symbol=share_name,
+                                quantity=Decimal(row[quantity]), price=Decimal(row[price]),
+                                request_id=self._request_id)
                 activities.append(activity)
             if row[activity_type] == "SELL":
                 share_name = row[symbol].split('-')[0].strip()
@@ -407,6 +408,11 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+
+if __name__ != '__main__':
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

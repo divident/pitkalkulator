@@ -46,6 +46,7 @@
   align-items: center;
 }
 
+.githubIcon,
 .logoIcon,
 .headerLink,
 .headerIcon {
@@ -73,11 +74,17 @@
   margin-right: 0.5rem;
 }
 
+.githubIcon,
 .logoIcon,
 .headerIcon {
   font-size: 1.5rem;
 }
 
+.githubIcon {
+  color: black;
+}
+
+.githubIcon:hover,
 .logo:hover,
 .headerIcon:hover {
   color: #696969;

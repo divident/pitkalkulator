@@ -203,6 +203,10 @@
   background-color: lightgrey;
 }
 
+.regulations {
+  font-size: 0.75em;
+}
+
 .dragZoneActive,
 .dragZone {
   margin: 3rem;

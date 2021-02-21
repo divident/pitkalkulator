@@ -1,7 +1,7 @@
 .modal {
     position: absolute;
     width: 250px;
-    top: 0;
+    top: 20%;
     left: 0;
     z-index: 999999;
     background-color: #ffffff;
@@ -11,8 +11,13 @@
 
 @media (min-width: 700px) {
     .modal {
-        top: calc(50% - 250px);
-        left: calc(50% - 250px);
+        left: calc(50% - 125px);
+    }
+}
+
+@media (max-width: 572px) {
+    .modal {
+        width: 100vw;
     }
 }
 
