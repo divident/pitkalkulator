@@ -7,3 +7,4 @@ node_modules/
 .git
 *.db
 certs.zip
+certs/

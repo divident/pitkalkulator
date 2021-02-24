@@ -7,7 +7,7 @@ if [ $status -ne 0 ]; then
 fi
 
 # Start the first process
-gunicorn -w 5 -b 127.0.0.1:4000 app:app --daemon --timeout 300 --error-logfile pitkalkulator-error.log
+gunicorn -w 3 -b 127.0.0.1:4000 app:app --daemon --timeout 300 --error-logfile pitkalkulator-error.log
 status=$?
 if [ $status -ne 0 ]; then
   echo "Failed to start api: $status"

@@ -379,7 +379,6 @@ class AccountStatement:
                     raise AccountException(f"Brakuje cen akcji {activity.symbol} w ilości "
                                            f"{activity.quantity - sum_quantity}. Dodaj pliki z brakującymi danymi")
                 else:
-                    avg_price = sum([q * p for q, p in actions]) / sum_quantity
                     # calculate profit only for the last year
                     if activity.settle_date.year == last_year:
                         # get exchange rate from nbp
@@ -388,19 +387,32 @@ class AccountStatement:
                         else:
                             rate = exchange_rate(activity.currency.lower(
                             ), activity.settle_date)
+                        actions = actions[::-1]
+                        
                         income += activity.quantity * activity.price * rate
-                        cost += avg_price * activity.quantity
-
-                    current_quantity = activity.quantity
-                    for i, item in enumerate(actions):
-                        q, p = item
-                        if q < current_quantity:
-                            current_quantity = current_quantity - q
-                            actions[i] = (0, p)
-                        else:
-                            q -= current_quantity
-                            actions[i] = (q, p)
-                            current_quantity = 0
+                        buy_quantity = 0
+                        while activity.quantity > 0:
+                            if len(actions) > 0 and buy_quantity <= 0:
+                                buy_quantity, buy_price = actions.pop()
+                            cost += buy_price * min(activity.quantity, buy_quantity)
+                            tmp_quantity = buy_quantity
+                            buy_quantity -= min(activity.quantity, tmp_quantity)
+                            activity.quantity -= min(activity.quantity, tmp_quantity)
+                        
+                        # save buy actions after changes
+                        actions.append((buy_quantity, buy_price))
+                        buy_action[activity.symbol] = actions[::-1]
+                    # delete actions sold in previous years
+                    else:
+                        while activity.quantity > 0:
+                            buy_quantity, buy_price = actions.pop()
+                            tmp_quantity = buy_quantity
+                            buy_quantity -= min(activity.quantity, tmp_quantity)
+                            activity.quantity -= min(activity.quantity, tmp_quantity)
+                            if buy_quantity <= 0 and activity.quantity > 0:
+                                    buy_quantity, buy_price = actions.pop()
+                        actions.append((buy_quantity, buy_price)) 
+                        buy_action[activity.symbol] = actions[::-1]
         return income, cost, last_year
 
 @app.route('/favicon.ico')
