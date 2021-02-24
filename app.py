@@ -391,20 +391,21 @@ class AccountStatement:
                         
                         income += activity.quantity * activity.price * rate
                         buy_quantity = 0
-                        while activity.quantity > 0:
+                        sell_quantity = activity.quantity
+                        while sell_quantity  > 0:
                             if len(actions) > 0 and buy_quantity <= 0:
                                 buy_quantity, buy_price = actions.pop()
-                            cost += buy_price * min(activity.quantity, buy_quantity)
+                            cost += buy_price * min(sell_quantity, buy_quantity)
                             tmp_quantity = buy_quantity
-                            buy_quantity -= min(activity.quantity, tmp_quantity)
-                            activity.quantity -= min(activity.quantity, tmp_quantity)
+                            buy_quantity -= min(sell_quantity, tmp_quantity)
+                            sell_quantity  -= min(sell_quantity, tmp_quantity)
                         
                         # save buy actions after changes
                         actions.append((buy_quantity, buy_price))
                         buy_action[activity.symbol] = actions[::-1]
                     # delete actions sold in previous years
                     else:
-                        while activity.quantity > 0:
+                        while len(actions) > 0 and activity.quantity > 0:
                             buy_quantity, buy_price = actions.pop()
                             tmp_quantity = buy_quantity
                             buy_quantity -= min(activity.quantity, tmp_quantity)
