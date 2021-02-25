@@ -135,6 +135,22 @@ class TestApp(TestCase):
                                (Decimal('0.3') - Decimal('0.2')) * sell2_q, income - cost)
 
     @patch('requests.get', return_value=Response)
+    def test_calculate_profit_only_past_activity(self, mock_get):
+        buy = Activity('CCC', 'BUY', 40, Decimal('0.4'),
+                       settle_date=datetime.strptime("2019/12/21", "%Y/%m/%d"))
+        buy2 = Activity('CCC', 'BUY', 20, Decimal('0.2'),
+                        settle_date=datetime.strptime("2019/12/22", "%Y/%m/%d"))
+        sell = Activity('CCC', 'SELL', 20, Decimal('0.3'),
+                        settle_date=datetime.strptime("2019/12/23", "%Y/%m/%d"))
+        sell2 = Activity('CCC', 'SELL', 40, Decimal('0.3'),
+                        settle_date=datetime.strptime("2019/12/24", "%Y/%m/%d"))
+        activities = [buy, buy2, sell2, sell]
+        expected_profit = 0
+
+        income, cost, _ = AccountStatement.calculate_profit(activities, year=2020)
+        self.assertAlmostEqual(expected_profit, income - cost)
+    
+    @patch('requests.get', return_value=Response)
     def test_calculate_profit_fifo_multile_buys(self, mock_get):
         buy_q = 10
         buy = Activity('CCC', 'BUY', buy_q, Decimal('0.4'))

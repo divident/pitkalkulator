@@ -115,7 +115,6 @@ def upload_file():
         if len(files) < 1:
              return make_response(jsonify({'error': 'Nie wysłano żanych plików'}), 400)
         with tempfile.TemporaryDirectory(dir=app.config['UPLOAD_FOLDER']) as tmpdirname:
-            filenames = []
             for file in files:
                 if file and allowed_file(file.filename):
                     try:
@@ -387,9 +386,9 @@ class AccountStatement:
                         else:
                             rate = exchange_rate(activity.currency.lower(
                             ), activity.settle_date)
-                        actions = actions[::-1]
                         
                         income += activity.quantity * activity.price * rate
+                        actions = actions[::-1]
                         buy_quantity = 0
                         sell_quantity = activity.quantity
                         while sell_quantity  > 0:
@@ -405,13 +404,15 @@ class AccountStatement:
                         buy_action[activity.symbol] = actions[::-1]
                     # delete actions sold in previous years
                     else:
-                        while len(actions) > 0 and activity.quantity > 0:
-                            buy_quantity, buy_price = actions.pop()
+                        actions = actions[::-1]
+                        sell_quantity = activity.quantity
+                        buy_quantity = 0
+                        while sell_quantity > 0:
+                            if len(actions) > 0 and buy_quantity <= 0:
+                                buy_quantity, buy_price = actions.pop()
                             tmp_quantity = buy_quantity
-                            buy_quantity -= min(activity.quantity, tmp_quantity)
-                            activity.quantity -= min(activity.quantity, tmp_quantity)
-                            if buy_quantity <= 0 and activity.quantity > 0:
-                                    buy_quantity, buy_price = actions.pop()
+                            buy_quantity -= min(sell_quantity, tmp_quantity)
+                            sell_quantity  -= min(sell_quantity, tmp_quantity)
                         actions.append((buy_quantity, buy_price)) 
                         buy_action[activity.symbol] = actions[::-1]
         return income, cost, last_year
