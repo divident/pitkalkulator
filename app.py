@@ -250,7 +250,7 @@ class AccountStatement:
     BEG_STR = "ACTIVITY"
     END_STR = "SWEEP ACTIVITY"
     SIX_FIELD_ACTIVITY = ["CSD", "CDEP"]
-    FILTER_WORDS = set(['ACTIVITY', 'Trade Date', 'Settle Date', 'Currency', 'Princ',
+    FILTER_WORDS = set(['ACTIVITY', 'Trade Date', 'Settle Date', 'Currency', 'Princ', 'Principa',
                     'Activity Type', 'Symbol / Description', 'Quantity', 'Price', 'Amount', 'Agency.', 'Principal.', '.Principal', 'Principal'])
     FILTER_SYMBOL = re.compile(r'^\d+\.\d+ \w+\.$')
     DATE = re.compile(r'^\d{2}/\d{2}/\d{4}$')
