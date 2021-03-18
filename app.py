@@ -250,8 +250,8 @@ class AccountStatement:
     BEG_STR = "ACTIVITY"
     END_STR = "SWEEP ACTIVITY"
     SIX_FIELD_ACTIVITY = ["CSD", "CDEP"]
-    FILTER_WORDS = set(['ACTIVITY', 'Trade Date', 'Settle Date', 'Currency', 'Princ',
-                    'Activity Type', 'Symbol / Description', 'Quantity', 'Price', 'Amount', 'Agency.', 'Principal.', '.Principal', 'Principal'])
+    FILTER_WORDS = set(['ACTIVITY', 'Trade Date', 'Settle Date', 'Currency', 'Princ', 'Principa', 
+        'Activity Type', 'Symbol / Description', 'Quantity', 'Price', 'Amount', 'Agency.', 'Principal.', '.Principal', 'Principal'])
     FILTER_SYMBOL = re.compile(r'^\d+\.\d+ \w+\.$')
     DATE = re.compile(r'^\d{2}/\d{2}/\d{4}$')
 
@@ -305,7 +305,7 @@ class AccountStatement:
         price = -2
 
         activities = []
-
+        
         for row in self._activity_data:
             if len(row) < 4:
                 continue
@@ -315,27 +315,35 @@ class AccountStatement:
             except ValueError as e:
                 app.logger.error(str(e))
                 continue
+            
             # Handle special case
             if row.count("Your Default Tax Lot Disposition Method is:") > 0:
                 row = row[0:row.index("Your Default Tax Lot Disposition Method is:")]
+            for index, item in enumerate(row):
+                if item.startswith("Page"):
+                    row = row[0:index]
+                    break
             row[price] = row[price].split()[0]
             row[quantity] = row[quantity].split()[0]
-            if row[activity_type] == "BUY":
-                share_name = row[symbol].split('-')[0].strip()
-                [share_name].append(
-                    (Decimal(row[price]), Decimal(row[quantity])))
-                activity = Activity(settle_date=parsed_date, currency=row[currency], type=row[activity_type],
-                                symbol=share_name,
-                                quantity=Decimal(row[quantity]), price=Decimal(row[price]),
-                                request_id=self._request_id)
-                activities.append(activity)
-            if row[activity_type] == "SELL":
-                share_name = row[symbol].split('-')[0].strip()
-                activity = Activity(settle_date=parsed_date, currency=row[currency], type=row[activity_type],
+            try:
+                if row[activity_type] == "BUY":
+                    share_name = row[symbol].split('-')[0].strip()
+                    [share_name].append(
+                        (Decimal(row[price]), Decimal(row[quantity])))
+                    activity = Activity(settle_date=parsed_date, currency=row[currency], type=row[activity_type],
                                     symbol=share_name,
-                                    quantity=-Decimal(row[quantity]), price=Decimal(row[price]),
+                                    quantity=Decimal(row[quantity]), price=Decimal(row[price]),
                                     request_id=self._request_id)
-                activities.append(activity)
+                    activities.append(activity)
+                if row[activity_type] == "SELL":
+                    share_name = row[symbol].split('-')[0].strip()
+                    activity = Activity(settle_date=parsed_date, currency=row[currency], type=row[activity_type],
+                                        symbol=share_name,
+                                        quantity=-Decimal(row[quantity]), price=Decimal(row[price]),
+                                        request_id=self._request_id)
+                    activities.append(activity)
+            except decimal.InvalidOperation:
+                raise Exception(f"failed for row={row}")
         return activities
 
     def save_data(self):

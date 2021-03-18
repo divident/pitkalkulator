@@ -96,7 +96,7 @@ function SelectColumnFilter({
             }}
         >
             <option value="">Wszystkie</option>
-            {options.map((option, i) => (
+            {options.sort().map((option, i) => (
                 <option key={i} value={option}>
                     {option}
                 </option>
@@ -205,6 +205,7 @@ function Table({ columns, data, income, cost, revenue, uuid, year, profitYear, s
                         <td><a href={`${API_URL}download/${uuid}/`}>Pobierz csv</a></td>
                         <td></td>
                         <td>Za rok <select value={profitYear} onChange={e => setProfitYear(e.target.value)}>
+                            <option value='2019'>2019</option>
                             <option value='2020'>2020</option>
                             <option value='2021'>2021</option>
                         </select></td>
