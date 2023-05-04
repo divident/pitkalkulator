@@ -2,16 +2,16 @@
 
 ![Pitkalkulator](./client/public/favicon.png "Pitkalkulator")
 
+Pitkalkulator is an application designed to facilitate the settlement of tax on stock profits obtained on the Revolut platform.
 
-Pitkalkulator jest aplikacją, której zadaniem jest ułatwienie rozliczania podatku od zysków giełdowych, uzyskanych na platformie Revolut.
+The application was developed using a REST API written with the [flask](https://flask.palletsprojects.com/en/1.1.x/)library. The [nextjs](https://nextjs.org/) library was used to present data in the client's browser.
 
-Aplikacja została wykonana z wykorzystaniem REST API, napisanego z wykorzystaniem biblioteki [flask](https://flask.palletsprojects.com/en/1.1.x/). Do prezentowania danych w przeglądarce klienta została użyta biblioteka [nextjs](https://nextjs.org/)
 
-### Uruchomienie aplikacji
+### Running the Application
 
-#### Środowisko developerskie
+#### Development Environment
 
-W celu uruchomienia aplikacji w środowisku developerskim, należy najpierw zainstalować zależności z użyciem następujących poleceń
+To run the application in a development environment, first install the dependencies using the following commands:
 ```
 # REST API
 pip install -r requirements.txt
@@ -20,36 +20,38 @@ pip install -r requirements.txt
 npm install
 ```
 
-Następnie należy uruchomić obie aplikacje
+Then run both applications:
+
 ```
 # REST API
 python app.py
 
-# Migracja bazy danych, tylko przy pierwszym uruchomieniu
+# Database migration, only required for first run
 flask db upgrade
 
 # nextjs
 npm run dev
 ```
 
-#### Środowisko produkcyjne
-Do uruchomienia w środowiska produkcyjnego konieczne jest zainstowanie [Docker](https://www.docker.com/) oraz [Docker Compose](https://docs.docker.com/compose/install/), uruchomienie odbywa się za pomocą komendy.
+#### Production Environment
+To run in a production environment, you must install [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/), and run the following command:
+
 ```
 docker-compose up -d
 
-# Migracja bazy danych, tylko przy pierwszym uruchomieniu
-docker exec -i <nazwa_kontenera_aplikacji> flask db upgrade 
+# Database migration, only required for first run
+docker exec -i <container_name> flask db upgrade 
 
 ```
+A production environment is required for the correct functioning of `Decimal` numbers because the test SQLite database does not support them.
 
-Środowisko produkcyjne jest wymagane dla poprawnego działania liczb `Decimal`, ponieważ testowa baza danych sqlite nie posiada wsparcia dla nich.
+### Testing
+The client layer currently does not have any tests (nextjs).
 
-### Testowanie
-Warstwa kliencka nie posiada obecnie testów (nextjs)
+For the REST API, tests are located in the `test.py` file, and can be run with the following command:
 
-Dla REST API testy znajdują się w pliku `test.py`, uruchomić je można komendą 
 ```
 python test.py
 ```
+Unfortunately, the test data sets located in the `test_data` folder have been deleted because they contain personal data. To run the tests fully, you must add the reports you have to the `test_data` folder.
 
-Niestety testowe zestawienia operacji, znajdujące się w folderze `test_data`, zostały usunięte, ponieważ zawierają one dane personalne. Dla pełnego uruchamia testów, należy wrzucić do `test_data` posiadane raporty.
